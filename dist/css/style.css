@@ -1,1 +1,17 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+.searchArea {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.outputLayout {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr 1fr 1fr;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template: 1fr 1fr 1fr / 1fr 1fr;
+}
+/*# sourceMappingURL=style.css.map */
