@@ -5,7 +5,6 @@ const source = document.getElementById("handlebarsTemplate").innerHTML;
 const template = Handlebars.compile(source);
 
 getWeather=(city) => {
-    const badResponseCounter = 0;
     request.open("GET", weatherUrl+"?key="+apiKey+"&q="+city+"&num_of_days=1");
     request.send();
     
