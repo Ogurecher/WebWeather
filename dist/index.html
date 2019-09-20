@@ -6,16 +6,37 @@
         <link type="text/css" rel="stylesheet" href="./css/style.css">
     </head>
     <body>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.2.0/handlebars.min.js"></script>
-        <script id="handlebarsTemplate" type="text/x-handlebars-template"><div class="outputLayout"><div class="weatherDescription"><img src={{weatherIcon}}> {{weatherDesc}} </div><div class="temperature"> {{temperature}} C°</div><div class="wind"><img src={{windIcon}}> Wind direction: {{windDir}}<br>Wind speed: {{windSpd}} m/s</div><div class="sun"><img src={{sunriseIcon}}>Sunrise: {{sunrise}}<br>Sunset: {{sunset}}</div><div class="rain"> Chance of rain: {{rain}}%<br>Humidity: {{humidity}}% </div></div></script>
-        <script src="main.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.2.0/handlebars.js"></script>
+        <script id="handlebarsTemplate" type="text/x-handlebars-template">
+            <div class="weatherDescription">
+                <img src={{weatherIcon}}>
+                <p>{{weatherDesc}}</p>
+            </div>
+            <div class="temperature">
+                <p>{{temperature}} C°</p>
+            </div>
+            <div class="wind">
+                <img src={{windIcon}}>
+                <p>Wind direction: {{windDir}}<br>Wind speed: {{windSpd}} m/s</p>
+            </div>
+            <div class="sun">
+                <img src={{sunriseIcon}}>
+                <p>Sunrise: {{sunrise}}<br>Sunset: {{sunset}}</p>
+            </div>
+            <div class="rain">
+                <p>Chance of rain: {{rain}}%<br>Humidity: {{humidity}}%</p>
+            </div>
+        </script>
         <div id="main">
             <div class="searchArea">
+                <form id="inputForm">
                     <input type="text" id="inputCity">
-                    <button onclick="getWeather(document.getElementById('inputCity').value)">Get Weather</button>
+                    <input type="submit" id="inputSubmit">
+                </form>
             </div>
         </div>
+
+        <script src="main.js"></script>
     </body>
 
 </html>

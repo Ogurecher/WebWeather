@@ -6,6 +6,8 @@ Provides weather info using openweather API
 1) Поставить extension "Live Sass Compiler"
 2) В настройках поставить "savePath": "/dist/css"
 ## Если нет VSCode:
-1) Скачать Scout-app
-2) В Scout-app выбрать проект, директории scss и css файлов
-3) Нажать на стрелочку
+1) Скачать [Sass](https://github.com/sass/dart-sass/releases/tag/1.22.12), добавить Sass в [Path](https://katiek2.github.io/path-doc/)
+2) В командной строке перейти в корневую директорию проекта и выполнить
+```bash
+$> sass scss/style.scss dist/css/style.css
+```
