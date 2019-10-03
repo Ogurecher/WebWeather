@@ -3,6 +3,7 @@ const weatherUrl = 'http://api.worldweatheronline.com/premium/v1/weather.ashx';
 const request = new XMLHttpRequest();
 const source = document.getElementById('handlebarsTemplate').innerHTML;
 const template = Handlebars.compile(source);
+const errorTemplate = Handlebars.compile(document.getElementById('errorTemplate').innerHTML);
 
 getWeather=(city) => {
     city.preventDefault();
@@ -20,7 +21,7 @@ getWeather=(city) => {
         }
 
         if (request.responseXML.getElementsByTagName('error').length != 0) {
-            renderError();
+            renderError({city: city.target[0].value});
             return;
         }
 
@@ -51,13 +52,14 @@ renderContent=(context)=> {
     main.appendChild(div);
 }
 
-renderError=()=> {
+renderError=(context)=> {
     const main = document.getElementById('main');
-    const errorContainer = document.createElement('div');
-    const errorMsg = document.createTextNode('Please enter a correct location name');
-    errorContainer.id = 'outputLayout';
-    errorContainer.appendChild(errorMsg);
-    main.appendChild(errorContainer);
+    const html = errorTemplate(context);
+    const div= document.createElement('div');
+    div.innerHTML = html;
+    div.id = 'outputLayout';
+
+    main.appendChild(div);
 }
 
 document.getElementById('inputForm').addEventListener('submit', getWeather);
