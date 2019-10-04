@@ -5,9 +5,9 @@ const source = document.getElementById('handlebarsTemplate').innerHTML;
 const template = Handlebars.compile(source);
 const errorTemplate = Handlebars.compile(document.getElementById('errorTemplate').innerHTML);
 
-getWeather=(city) => {
-    city.preventDefault();
-    request.open('GET', weatherUrl+'?key='+apiKey+'&q='+city.target[0].value+'&num_of_days=1');
+getWeather=(event) => {
+    event.preventDefault();
+    request.open('GET', weatherUrl+'?key='+apiKey+'&q='+event.target[0].value+'&num_of_days=1');
     request.send();
 
     request.onreadystatechange=(e)=> {
@@ -21,7 +21,7 @@ getWeather=(city) => {
         }
 
         if (request.responseXML.getElementsByTagName('error').length != 0) {
-            renderError({city: city.target[0].value});
+            renderError({city: event.target[0].value});
             return;
         }
 
