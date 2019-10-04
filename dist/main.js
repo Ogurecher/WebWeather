@@ -25,23 +25,26 @@ getWeather=(city) => {
             return;
         }
 
-        const context = {weatherDesc: request.responseXML.getElementsByTagName('weatherDesc')[0].textContent,
-            weatherIcon: request.responseXML.getElementsByTagName('weatherIconUrl')[0].textContent,
-            temperature: request.responseXML.getElementsByTagName('temp_C')[0].textContent,
-            sunrise: request.responseXML.getElementsByTagName('sunrise')[0].textContent,
-            sunset: request.responseXML.getElementsByTagName('sunset')[0].textContent,
-            rain: request.responseXML.getElementsByTagName('chanceofrain')[0].textContent,
-            humidity: request.responseXML.getElementsByTagName('humidity')[0].textContent,
-            windDir: request.responseXML.getElementsByTagName('winddir16Point')[0].textContent,
-            windSpd: request.responseXML.getElementsByTagName('windspeedKmph')[0].textContent,
-            sunriseIcon: 'http://icons.iconarchive.com/icons/iconsmind/outline/64/Sunrise-icon.png',
-            windIcon: 'https://image.flaticon.com/icons/png/128/184/184971.png'};
         
-        renderContent(context);
+        
+        renderContent(request.responseXML);
     }
 }
 
-renderContent=(context)=> {
+renderContent=(responseXML)=> {
+
+    const context = {weatherDesc: responseXML.getElementsByTagName('weatherDesc')[0].textContent,
+            weatherIcon: responseXML.getElementsByTagName('weatherIconUrl')[0].textContent,
+            temperature: responseXML.getElementsByTagName('temp_C')[0].textContent,
+            sunrise: responseXML.getElementsByTagName('sunrise')[0].textContent,
+            sunset: responseXML.getElementsByTagName('sunset')[0].textContent,
+            rain: responseXML.getElementsByTagName('chanceofrain')[0].textContent,
+            humidity: responseXML.getElementsByTagName('humidity')[0].textContent,
+            windDir: responseXML.getElementsByTagName('winddir16Point')[0].textContent,
+            windSpd: responseXML.getElementsByTagName('windspeedKmph')[0].textContent,
+            sunriseIcon: 'http://icons.iconarchive.com/icons/iconsmind/outline/64/Sunrise-icon.png',
+            windIcon: 'https://image.flaticon.com/icons/png/128/184/184971.png'};
+
     const main = document.getElementById('main');
     const html = template(context);
     const div= document.createElement('div');

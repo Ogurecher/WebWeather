@@ -61,6 +61,10 @@ $textColor: #ffff;
 
 .rain {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+}
+
+p {
+    margin: 0;
 }
