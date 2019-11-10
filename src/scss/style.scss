@@ -1,0 +1,70 @@
+$cardColor: #96b4e4;
+$mainFont: Verdana;
+$textColor: #ffff;
+
+* {
+    font-family: $mainFont;
+}
+
+#main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.searchArea {
+    margin-bottom: 1vw;
+}
+
+.outputLayout {
+    color: $textColor;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr 1fr;
+    width: 50%;
+    grid-gap: 1vw;
+}
+
+.outputLayout > div {
+    background: $cardColor;
+    padding: 1vw;
+}
+
+.weatherDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 150%;
+}
+
+.temperature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 200%;
+}
+
+.sun {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wind {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-area: 1/3/span 2/span 1;
+}
+
+.rain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+p {
+    margin: 0;
+}

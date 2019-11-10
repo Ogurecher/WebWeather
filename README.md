@@ -9,5 +9,5 @@ Provides weather info using openweather API
 1) Скачать [Sass](https://github.com/sass/dart-sass/releases/tag/1.22.12), добавить Sass в [Path](https://katiek2.github.io/path-doc/)
 2) В командной строке перейти в корневую директорию проекта и выполнить
 ```bash
-$> sass scss/style.scss dist/css/style.css
+$> sass src/scss/style.scss dist/css/style.css
 ```
