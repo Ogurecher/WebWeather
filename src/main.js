@@ -6,6 +6,8 @@ const template = Handlebars.compile(source);
 const errorTemplate = Handlebars.compile(document.getElementById('errorTemplate').innerHTML);
 
 getWeather=(event) => {
+    console.log('getWeather');
+
     event.preventDefault();
     request.open('GET', weatherUrl+'?key='+apiKey+'&q='+event.target[0].value+'&num_of_days=1');
     request.send();
@@ -31,8 +33,8 @@ getWeather=(event) => {
     }
 }
 
-renderContent=(responseXML)=> {
-    console.log('hello');
+renderContent=(responseXML) => {
+    console.log('renderContent');
 
     const context = {weatherDesc: responseXML.getElementsByTagName('weatherDesc')[0].textContent,
             weatherIcon: responseXML.getElementsByTagName('weatherIconUrl')[0].textContent,
@@ -56,7 +58,9 @@ renderContent=(responseXML)=> {
     main.appendChild(div);
 }
 
-renderError=(context)=> {
+renderError=(context) => {
+    console.log('renderError');
+
     const main = document.getElementById('main');
     const html = errorTemplate(context);
     const div= document.createElement('div');
@@ -67,3 +71,8 @@ renderError=(context)=> {
 }
 
 document.getElementById('inputForm').addEventListener('submit', getWeather);
+module.exports = {
+    getWeather: getWeather,
+    renderContent: renderContent,
+    renderError: renderError
+};
