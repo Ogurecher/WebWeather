@@ -29,8 +29,9 @@
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
     "extract-loader": "^3.1.0",
+    "fetch-mock": "^8.0.1",
     "file-loader": "^4.2.0",
-    "handlebars": "^4.5.1",
+    "handlebars": "^4.5.3",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "mocha": "^6.2.2",
@@ -45,5 +46,7 @@
     "webpack-dev-server": "^3.9.0",
     "xmlhttprequest": "^1.8.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
 }

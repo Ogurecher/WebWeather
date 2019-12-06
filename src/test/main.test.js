@@ -3,6 +3,7 @@ const sinon = require("sinon");
 const handlebars = require("handlebars");
 const expect = chai.expect;
 
+
 global.document = {
   getElementById: (arg) => {
     return {
@@ -37,59 +38,110 @@ const documentCreateElementStub = sinon.stub(global.document, 'createElement').r
 });
 
 const documentAppendChildSpy = sinon.spy();
+const removeSpy = sinon.spy();
 const documentGetByIdStub = sinon.stub(global.document, 'getElementById').returns({
   innerHTML() {return ''},
   addEventListener() {return ''},
-  appendChild: documentAppendChildSpy
+  appendChild: documentAppendChildSpy,
+  remove: removeSpy
 });
+
+const mainjs = require('../main.js');
+
 
 
 describe('getWeather', () => {
 
-  const { getWeather } = require('../main');
+  const renderContentSpy = sinon.spy(mainjs, 'renderContent');
+  global.renderContent = renderContentSpy;
+
+  const renderErrorSpy = sinon.spy(mainjs, 'renderError');
+  global.renderError = renderErrorSpy;
+
+  const fetchMock = require('fetch-mock');
+  const fetchSpy = sinon.spy(fetchMock);
+
+  const correctResponse = {
+    data: {
+      current_condition: [{
+        weatherDesc: [{
+          value: ''
+        }],
+        weatherIconUrl: [{
+          value: ''
+        }],
+        temp_C: '',
+        humidity: '',
+        winddir16Point: '',
+        windspeedKmph: ''
+      }],
+      weather: [{
+        astronomy: [{
+          sunrise: '',
+          sunset: ''
+        }],
+        hourly: [{
+          chanceofrain: ''
+        }]
+      }]
+    }
+  };
+
+  const errorResponse = {
+    data: {
+      error: '404'
+    }
+  };
 
   const eventFake = {
     preventDefault: () => '',
     target: [{
-      value: ''
+      value: 'london'
     }]
   };
-
-  /*global.fetch = () => {
-    return Promise.resolve({error: 'err'});
-  };*/
-
-  const { fetch } = require('../main');
-
-  const fetchSpy = sinon.spy(fetch);
-
-  //const fetchStub = sinon.stub(global, 'fetch').returns(fetchSpy);
   
   it('sends API request', () => {
 
-    /*getWeather(eventFake);
+    fetchMock.get('*', correctResponse);
 
-    expect(fetchSpy.called).to.equal(true);*/
-  });
+    mainjs.getWeather(eventFake);
 
-  it('gets API response', () => {
-
-  });
-
-  it('drops empty responses', () => {
-
+    expect(fetchSpy.called()).to.equal(true);
+    fetchMock.reset();
   });
 
   it('removes previous layout if present', () => {
 
-  });
+    fetchMock.get('*', correctResponse);
 
-  it('calls renderError if API response cotains an error', () => {
+    mainjs.getWeather(eventFake);
 
+    fetchMock.reset();
+    expect(removeSpy.called).to.equal(true);
   });
 
   it('calls renderContent if OK', () => {
 
+    fetchMock.get('*', correctResponse);
+    
+    const {formContext} = require('../main.js');
+    const context = formContext(correctResponse.data);
+
+    mainjs.getWeather(eventFake);
+    
+    fetchMock.reset();
+    expect(renderContentSpy.calledWith(context)).to.equal(true);
+  });
+
+  it('calls renderError if API response contains an error', () => {
+
+    fetchMock.get('*', errorResponse);
+    
+    mainjs.getWeather(eventFake);
+
+    fetchMock.reset();
+    console.log(renderErrorSpy.callCount);
+    expect(renderErrorSpy.called).to.equal(true);
   });
 });
 
@@ -97,8 +149,6 @@ describe('getWeather', () => {
 
 
 describe('renderContent', () => {
-  
-  const {renderContent} = require("../main.js");
 
   const contextFake = {
     weatherDesc: '',
@@ -116,28 +166,28 @@ describe('renderContent', () => {
   
   it('compiles Handlebars template with provided context', () => {
     
-    renderContent(contextFake);
+    mainjs.renderContent(contextFake);
 
     expect(compileTemplateSpy.calledWith(contextFake)).to.equal(true);
   });
 
   it('creates div to render', () => {
 
-    renderContent(contextFake);
+    mainjs.renderContent(contextFake);
 
     expect(documentCreateElementStub.called).to.equal(true);
   });
 
   it('appends correct div to document.main', () => {
-    const { template } = require('../main');
-    const templateFake = template(contextFake);
+
+    const templateFake = mainjs.template(contextFake);
     const divFake = {
       innerHTML: templateFake,
       id: 'outputLayout',
       className: 'outputLayout'
     };
 
-    renderContent(contextFake);
+    mainjs.renderContent(contextFake);
 
     expect(documentAppendChildSpy.calledWith(divFake)).to.equal(true);
   });
@@ -154,28 +204,28 @@ describe('renderError', () => {
 
   it('inserts city into error message', () => {
     
-    renderError(contextFake);
+    mainjs.renderError(contextFake);
 
     expect(compileTemplateSpy.calledWith(contextFake)).to.equal(true);
   });
 
   it('creates div to render', () => {
 
-    renderError(contextFake);
+    mainjs.renderError(contextFake);
 
     expect(documentCreateElementStub.called).to.equal(true);
   });
 
   it('appends correct div to document.main', () => {
-    const { errorTemplate } = require('../main');
-    const errorTemplateFake = errorTemplate(contextFake);
+
+    const errorTemplateFake = mainjs.errorTemplate(contextFake);
     const divFake = {
       innerHTML: errorTemplateFake,
       id: 'outputLayout',
       className: 'outputLayout'
     };
 
-    renderError(contextFake);
+    mainjs.renderError(contextFake);
 
     expect(documentAppendChildSpy.calledWith(divFake)).to.equal(true);
   });
@@ -185,7 +235,6 @@ describe('renderError', () => {
 
 
 describe('formContext', () => {
-  const { formContext } = require('../main');
 
   const contextFake = {
     weatherDesc: '',
@@ -227,6 +276,6 @@ describe('formContext', () => {
 
   it('returns correct context', () => {
 
-    expect(JSON.stringify(formContext(dataFake))).to.equal(JSON.stringify(contextFake));
+    expect(JSON.stringify(mainjs.formContext(dataFake))).to.equal(JSON.stringify(contextFake));
   });
 });
