@@ -4,7 +4,7 @@ const source = document.getElementById('handlebarsTemplate').innerHTML;
 const template = Handlebars.compile(source);
 const errorTemplate = Handlebars.compile(document.getElementById('errorTemplate').innerHTML);
 
-getWeather=(event) => {
+getWeather=async (event) => {
     event.preventDefault();
     fetch(weatherUrl+'?key='+apiKey+'&q='+event.target[0].value+'&num_of_days=1&format=json')
     .then(response => response.json())

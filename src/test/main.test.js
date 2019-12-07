@@ -100,44 +100,44 @@ describe('getWeather', () => {
     }]
   };
   
-  it('sends API request', () => {
+  it('sends API request', async () => {
 
     fetchMock.get('*', correctResponse);
 
-    mainjs.getWeather(eventFake);
+    await mainjs.getWeather(eventFake);
 
     expect(fetchSpy.called()).to.equal(true);
     fetchMock.reset();
   });
 
-  it('removes previous layout if present', () => {
+  it('removes previous layout if present', async () => {
 
     fetchMock.get('*', correctResponse);
 
-    mainjs.getWeather(eventFake);
+    await mainjs.getWeather(eventFake);
 
     fetchMock.reset();
     expect(removeSpy.called).to.equal(true);
   });
 
-  it('calls renderContent if OK', () => {
+  it('calls renderContent if OK', async () => {
 
     fetchMock.get('*', correctResponse);
     
     const {formContext} = require('../main.js');
     const context = formContext(correctResponse.data);
 
-    mainjs.getWeather(eventFake);
+    await mainjs.getWeather(eventFake);
     
     fetchMock.reset();
     expect(renderContentSpy.calledWith(context)).to.equal(true);
   });
 
-  it('calls renderError if API response contains an error', () => {
+  it('calls renderError if API response contains an error', async () => {
 
     fetchMock.get('*', errorResponse);
     
-    mainjs.getWeather(eventFake);
+    await mainjs.getWeather(eventFake);
 
     fetchMock.reset();
     console.log(renderErrorSpy.callCount);
