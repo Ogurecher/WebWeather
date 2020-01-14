@@ -93,18 +93,15 @@ describe('getWeather', () => {
     }
   };
 
-  const eventFake = {
-    preventDefault: () => '',
-    target: [{
+  const targetFake = [{
       value: 'london'
-    }]
-  };
+  }];
   
   it('sends API request', async () => {
 
     fetchMock.get('*', correctResponse);
 
-    await mainjs.getWeather(eventFake);
+    await mainjs.getWeather(targetFake);
 
     expect(fetchSpy.called()).to.equal(true);
     fetchMock.reset();
@@ -114,7 +111,7 @@ describe('getWeather', () => {
 
     fetchMock.get('*', correctResponse);
 
-    await mainjs.getWeather(eventFake);
+    await mainjs.getWeather(targetFake);
 
     fetchMock.reset();
     expect(removeSpy.called).to.equal(true);
@@ -127,7 +124,7 @@ describe('getWeather', () => {
     const {formContext} = require('../main.js');
     const context = formContext(correctResponse.data);
 
-    await mainjs.getWeather(eventFake);
+    await mainjs.getWeather(targetFake);
     
     fetchMock.reset();
     expect(renderContentSpy.calledWith(context)).to.equal(true);
@@ -137,10 +134,9 @@ describe('getWeather', () => {
 
     fetchMock.get('*', errorResponse);
     
-    await mainjs.getWeather(eventFake);
+    await mainjs.getWeather(targetFake);
 
     fetchMock.reset();
-    console.log(renderErrorSpy.callCount);
     expect(renderErrorSpy.called).to.equal(true);
   });
 });
